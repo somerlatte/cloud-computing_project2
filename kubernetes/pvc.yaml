@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: project2-pv2-lorraynesantos
+  namespace: lorraynesantos
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 512Mi
+  selector:
+    matchLabels:
+      namespace: lorraynesantos
+  storageClassName: default-storage-class-lorraynesantos
