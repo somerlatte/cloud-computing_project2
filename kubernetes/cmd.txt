@@ -42,7 +42,7 @@ wget --server-response \
    --output-document response.out \
    --header='Content-Type: application/json' \
    --post-data '{"songs": ["Unforgettable", "XO TOUR Llif3"]}' \
-   http://<SERVICE_CLUSTER_IP>:52041
+   http://<10.43.157.6>:52041
 
 # Comandos adicionais
 kubectl delete -f deployment.yaml
