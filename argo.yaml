@@ -1,0 +1,18 @@
+apiVersion: argo/v1
+kind: Application
+metadata:
+  name: songs
+spec:
+  destination:
+    name: ''
+    namespace: lorraynesantos
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: flask
+    repoURL: 'https://github.com/somerlatte/cloud-computing_project2.git'
+    targetRevision: HEAD
+  project: lorraynesantos-project
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
