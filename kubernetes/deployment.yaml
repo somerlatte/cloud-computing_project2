@@ -25,7 +25,7 @@ spec:
         - name: DATASET
           value: "https://github.com/somerlatte/cloud-computing_project2/raw/refs/heads/main/data/2023_spotify_ds2.csv"
       containers:
-      - name: recommender-api
+      - name: recommendation-api
         image: lorraynesantos/recommendation_system_api:2.0.0
         ports:
         - containerPort: 5000
