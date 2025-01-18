@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: playlist-recommendation-deployment
+  namespace: lorraynesantos
+  labels:
+    app: lorraynesantos-playlist-recommendation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lorraynesantos-playlist-recommendation
+  template:
+    metadata:
+      labels:
+        app: lorraynesantos-playlist-recommendation
+    spec:
+      initContainers:
+      - name: model-container
+        image: lorraynesantos/recommendation_model:2.0.0
+        volumeMounts:
+        - name: pickle-data
+          mountPath: /pickle
+        env:
+        - name: DATASET
+          value: "https://github.com/somerlatte/cloud-computing_project2/raw/refs/heads/main/data/2023_spotify_ds2.csv"
+      containers:
+      - name: recommender-api
+        image: lorraynesantos/recommendation_system_api:2.0.0
+        ports:
+        - containerPort: 5000
+        env:
+        - name: VERSION
+          value: 2.0.0
+        volumeMounts:
+        - name: pickle-data
+          mountPath: /pickle
+      volumes:
+      - name: pickle-data
+        persistentVolumeClaim:
+          claimName: project2-pv2-lorraynesantos
+
+          
