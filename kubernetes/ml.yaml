@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: rules-generator
+  namespace: lorraynesantos
+spec:
+  template:
+    metadata:
+      labels:
+        app: rules-generator
+    spec:
+      containers:
+      - name: rules-generator
+        image: lorraynesantos/rules-generator:2.0.0
+        env:
+        - name: CSV_FILENAME
+          value: "https://raw.githubusercontent.com/somerlatte/cloud-computing_project2/refs/heads/main/data/2023_spotify_ds2.csv"
+        volumeMounts:
+        - name: shared-volume
+          mountPath: /mnt/shared
+      restartPolicy: Never
+      volumes:
+      - name: shared-volume
+        persistentVolumeClaim:
+          claimName: project2-pv2-lorraynesantos
+  backoffLimit: 1

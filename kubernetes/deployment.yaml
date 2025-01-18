@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server
+  namespace: lorraynesantos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-server
+  template:
+    metadata:
+      labels:
+        app: api-server
+    spec:
+      containers:
+      - name: api-server
+        image: lorraynesantos/api:2.0.0
+        ports:
+        - containerPort: 52041
+        env:
+        - name: CSV_FILENAME
+          value: "https://raw.githubusercontent.com/somerlatte/cloud-computing_project2/refs/heads/main/data/2023_spotify_ds2.csv"
+        volumeMounts:
+        - name: shared-volume
+          mountPath: /mnt/shared
+      volumes:
+      - name: shared-volume
+        persistentVolumeClaim:
+          claimName: project2-pv2-lorraynesantos
