@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  rules-generator:
+    build:
+      context: .
+      dockerfile: rules/Dockerfile
+    container_name: rules_generator_container
+    volumes:
+      - ./rules:/app
+      - ./data:/mnt/shared
+    environment:
+      - CSV_FILENAME=https://raw.githubusercontent.com/somerlatte/cloud-computing_project2/refs/heads/main/data/2023_spotify_ds1.csv
+    networks:
+      - playlist-net
+    command: python app.py
+
+  api-server:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: api_server_container
+    volumes:
+      - ./api:/app
+      - ./data:/mnt/shared
+    ports:
+      - "52041:52041"
+    depends_on:
+      - rules-generator
+    networks:
+      - playlist-net
+
+networks:
+  playlist-net:
+    driver: bridge
